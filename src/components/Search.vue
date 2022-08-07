@@ -45,8 +45,7 @@ export default {
       type:String,
     },
     optionArr:{
-      type:Array,
-      default:[]
+      type:Array
     },
     Two:{
       type: Boolean,

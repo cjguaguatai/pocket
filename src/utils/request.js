@@ -53,7 +53,7 @@ service.interceptors.request.use(async config => {
 
 // 响应拦截器
 service.interceptors.response.use((res) => {
-  console.log(res);
+  // console.log(res);
   if (res.config.url === '/api/user-service/user/login') {
     const { success, msg, token } = res.data
     if (success) return res.data
@@ -71,7 +71,7 @@ service.interceptors.response.use((res) => {
     router.push('/login')
     Message.error('登陆过期')
   } else {
-    console.log(222);
+    // console.log(222);
     Message.error(err.message)
     return Promise.reject(err)
   }

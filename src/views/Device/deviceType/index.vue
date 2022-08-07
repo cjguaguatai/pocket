@@ -8,15 +8,11 @@
  * @LastEditTime: 2022-08-03 20:14:17
 -->
 <template>
-  <div>设备类型管理</div>
+  <div class="app-main">设备类型管理</div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -8,7 +8,7 @@
  * @LastEditTime: 2022-08-03 20:11:13
 -->
 <template>
-  <div>
+  <div class="app-main">
     设备管理
   </div>
 </template>

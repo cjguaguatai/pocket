@@ -28,7 +28,12 @@
         @click.native="$emit('clickAddBtn')"
         >新建</my-buttom
       >
-      <my-buttom bcColor="lightsalmon" v-if="isShowSecondBtn" @click.native="$emit('clickSecondBtn')">{{secondBtnContent}}</my-buttom>
+      <my-buttom
+        bcColor="lightsalmon"
+        v-if="isShowSecondBtn"
+        @click.native="$emit('clickSecondBtn')"
+        >{{ secondBtnContent }}</my-buttom
+      >
     </div>
 
     <!-- 列表 -->
@@ -40,9 +45,9 @@
         ref="table"
       >
         <!-- 多选框 -->
-       <el-table-column type="selection" v-if="selection"></el-table-column>
+        <el-table-column type="selection" v-if="selection"></el-table-column>
         <!-- 序号列 -->
-        <el-table-column prop="id" label="序号"  width="80"></el-table-column>
+        <el-table-column prop="itemIndex" label="序号" width="80"></el-table-column>
         <!-- 循环渲染列表主要内容 -->
         <el-table-column
           :prop="item.prop"
@@ -50,21 +55,26 @@
           v-for="(item, index) in tableArr"
           :key="index"
           :formatter="formatter"
-          :show-overflow-tooltip='true'
+          :show-overflow-tooltip="true"
         ></el-table-column>
         <!-- 操作列 -->
-        <el-table-column fixed="right" label="操作" :width="length" prop="taskId">
+        <el-table-column
+          fixed="right"
+          label="操作"
+          :width="length"
+          prop="taskId"
+        >
           <template slot-scope="scope">
             <el-button
-            type="text"
-            @click="handleClick(scope.row,item.title)"
-            size="medium"
-            :class="{ color: item.color }"
-            v-for="(item,index) in operation"
-            :key='index'
-            class="operationBtn"
-          >
-              {{item.title}}</el-button
+              type="text"
+              @click="handleClick(scope.row, item.title)"
+              size="medium"
+              :class="{ color: item.color }"
+              v-for="(item, index) in operation"
+              :key="index"
+              class="operationBtn"
+            >
+              {{ item.title }}</el-button
             >
           </template>
         </el-table-column>
@@ -72,7 +82,11 @@
 
       <!-- 分页 -->
       <!-- $attrs 祖孙传值  $listeners 方法-->
-      <my-pagination v-bind="$attrs" v-on="$listeners" v-if="isShowPagination"></my-pagination>
+      <my-pagination
+        v-bind="$attrs"
+        v-on="$listeners"
+        v-if="isShowPagination"
+      ></my-pagination>
     </div>
   </div>
 </template>
@@ -84,40 +98,40 @@ import dayjs from "dayjs";
 export default {
   props: {
     // 是否显示表格上方按钮
-    isShowBtn:{
+    isShowBtn: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // 是否显示第二个按钮
-     isShowSecondBtn:{
+    isShowSecondBtn: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 第二个按钮的内容
-    secondBtnContent:{
+    secondBtnContent: {
       type: String,
-      default: '按钮'
+      default: "按钮",
     },
-    isShowPagination:{
+    isShowPagination: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // 表头数据
     tableArr: {
       type: Array,
-      default: [],
+      // default: [],
     },
     // 需要渲染的表格数据
     tableData: {
       type: Array,
-      default: [],
+      // default: [],
     },
-      // 是否显示多选框
+    // 是否显示多选框
     selection: {
       type: Boolean,
       default: false,
     },
-      // 操作框控制
+    // 操作框控制
     operation: {
       type: Array,
     },
@@ -140,20 +154,19 @@ export default {
     },
     handleClick(row, val) {
       console.log(row);
-    // 点击哪个按钮就把 当前这一列的信息 和 按钮的内容 val 传到父组件通过接收到的值触发不同处理函数，
-      this.$emit("operationBtn", row,val);
+      // 点击哪个按钮就把 当前这一列的信息 和 按钮的内容 val 传到父组件通过接收到的值触发不同处理函数，
+      this.$emit("operationBtn", row, val);
     },
   },
-  computed:{
-    length(){
-      return this.operation.length===4? 200:''
-    }
-  }
+  computed: {
+    length() {
+      return this.operation?.length === 4 ? 200 : "";
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-
 .color {
   color: red;
 }

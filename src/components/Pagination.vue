@@ -17,75 +17,77 @@
  * @LastEditTime: 2022-08-07 02:12:20
 -->
 <template>
-   <el-pagination layout="slot" size="10" class="pagination">
-            <slot>
-              <span>共{{totalCount}}条记录 第{{pageIndex}}/{{totalPage}}页</span>
-            </slot>
-              <el-button class="pageBtn" @click="upPage" :disabled="upPageBtn">上一页</el-button>
-              <el-button class="pageBtn" @click="nextPage" :disabled="nextPageBtn">下一页</el-button>
-          </el-pagination>
+  <el-pagination layout="slot" size="10" class="pagination">
+    <slot>
+      <span>共{{ totalCount }}条记录 第{{ pageIndex }}/{{ totalPage }}页</span>
+    </slot>
+    <el-button class="pageBtn" @click="upPage" :disabled="upPageBtn"
+      >上一页</el-button
+    >
+    <el-button class="pageBtn" @click="nextPage" :disabled="nextPageBtn"
+      >下一页</el-button
+    >
+  </el-pagination>
 </template>
 
 <script>
 export default {
-  props:{
+  props: {
     // 总共多少条记录
-      totalCount:{
-    type: [Number,String],
-    default:''
-   },
-  //  总页数
-   totalPage:{
-    type: [Number,String],
-    default:''
-   },
-  //  当前页数
-   pageIndex:{
-     type: [Number,String],
-    default:''
-   }
+    totalCount: {
+      type: [Number, String],
+      default: "",
+    },
+    //  总页数
+    totalPage: {
+      type: [Number, String],
+      default: "",
+    },
+    //  当前页数
+    pageIndex: {
+      type: [Number, String],
+      default: "",
+    },
   },
-  methods:{
+  methods: {
     // 点击上一页
-    upPage(){
-      this.$emit('upPage');
+    upPage() {
+      this.$emit("upPage");
     },
     // 点击下一页
-    nextPage(){
-      this.$emit('nextPage');
-    }
+    nextPage() {
+      this.$emit("nextPage");
+    },
   },
-  computed:{
-    upPageBtn(){
-     return this.pageIndex === '1'? true : false;
+  computed: {
+    upPageBtn() {
+      return this.pageIndex === "1" ? true : false;
     },
-     nextPageBtn(){
-     return this.pageIndex === this.totalCount? true : false;
+    nextPageBtn() {
+      return this.pageIndex === this.totalPage ? true : false;
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    .pagination {
-    display: flex;
-    justify-content: space-between;
-     background: #fff;
-    padding: 32px 16px;
-     span {
-      flex: 1;
-      font-size: 16px!important;
-      color: #dbdfe5!important;
-     }
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  padding: 32px 16px;
+  span {
+    flex: 1;
+    font-size: 16px !important;
+    color: #dbdfe5 !important;
+  }
 
-
-    .pageBtn {
-     width: 70px;
+  .pageBtn {
+    width: 70px;
     height: 32px;
     margin: 0 16px;
     border-radius: 2px;
-    background-color: #d5ddf8
-    }
-   }
-
+    background-color: #d5ddf8;
+  }
+}
 </style>
