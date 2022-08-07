@@ -9,21 +9,10 @@
 -->
 <template>
   <div class="app-main">
-    <d-search nameOne="设备编号" />
+    <d-search nameOne="设备编号" @search="searchFn" />
     <!-- table -->
     <el-card class="box-card">
       <div class="result">
-        <!-- 表格上方按钮 -->
-        <div class="operation-btn">
-          <!-- 点击新建按钮触发的事件 clickAddBtn -->
-          <!-- 点击第二个按钮触发的事件  clickSecondBtn-->
-          <my-buttom
-            bcColor="orange"
-            icon="el-icon-circle-plus-outline"
-            @click.native="$emit('clickAddBtn')"
-            >新建</my-buttom
-          >
-        </div>
         <!-- 列表 -->
         <div class="result-list">
           <el-table
@@ -84,7 +73,7 @@
                   @click="handleClick(scope.row)"
                   size="medium"
                   class="operationBtn"
-                  >操作
+                  >查看详情
                 </el-button>
               </template>
             </el-table-column>
@@ -128,6 +117,7 @@ export default {
       totalPage: "", //  总页数
       totalCount: "", // 总共多少条记录
       loading: false, // 控制加载
+      innerCode: "",
     };
   },
 
@@ -197,7 +187,6 @@ export default {
       this.getSearchList({
         pageIndex: --this.pageIndex,
         pageSize: 10,
-        isRepair: false,
       });
     },
     // 点击下一页
@@ -207,6 +196,10 @@ export default {
         pageSize: 10,
         isRepair: false,
       });
+    },
+    // 搜索
+    searchFn(val) {
+      this.getSearchList({ innerCode: val });
     },
   },
 };
