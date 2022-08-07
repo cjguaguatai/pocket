@@ -10,7 +10,7 @@
 <template>
   <div class="app-main">
     <!-- 头部搜索框 -->
-    <d-search nameOne="设备编号" />
+    <d-search nameOne="型号搜索" @search='searchFn'/>
     <!-- table -->
     <el-card class="box-card">
       <div class="result">
@@ -189,6 +189,9 @@ export default {
         isRepair: false,
       });
     },
+    searchFn(val){
+      this.getTypeList({ name: val });
+    }
   },
 };
 </script>

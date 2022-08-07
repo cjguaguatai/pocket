@@ -11,10 +11,10 @@
   <div class="search">
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item :label="nameOne+':'">
-        <el-input v-model.trim="taskCode" placeholder="请输入"></el-input>
+        <el-input clearable v-model.trim="taskCode" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item :label="nameTwo+':'" v-if="Two">
-        <el-select v-model.trim="taskStatus" placeholder="请选择">
+        <el-select v-model.trim="taskStatus" clearable placeholder="请选择">
           <el-option :label="item" :value="++index" v-for="(item, index) in optionArr" :key="index"></el-option>
         </el-select>
       </el-form-item>
@@ -57,7 +57,6 @@ export default {
   },
   methods:{
       searchBtn() {
-      if(this.taskCode===''&&this.taskStatus==='') return this.$message('查询不能为空')
       this.$emit('search',this.taskCode,this.taskStatus)
     },
   }

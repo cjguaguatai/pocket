@@ -9,7 +9,7 @@
 -->
 <template>
   <div class="app-main">
-    <d-search nameOne="设备编号" />
+    <d-search nameOne="设备编号" @search='searchFn'/>
     <el-card v-loading="loading">
       <result-list
         :totalPage="totalPage"
@@ -101,6 +101,10 @@ export default {
         pageSize: 10,
         isRepair: false,
       });
+    },
+    // 搜索
+    searchFn(val) {
+      this.getSearchList({ innerCode: val });
     },
   },
 };
