@@ -88,8 +88,28 @@
             @upPage="upPage"
             @nextPage="nextPage"
           ></my-pagination>
-        </div></div
-    ></el-card>
+        </div>
+      </div>
+    </el-card>
+    <!-- 设备详情弹出框 -->
+    <d-dialog :dialogVisible="detailsShow" dialogTitle="设备详情" @close='detailsShow=false'>
+      <div class="stats">
+        <div>
+          销售量：<span>{{ skuCollect }}</span>
+        </div>
+        <div>
+          销售额：<span>{{ orderAmount }}</span>
+        </div>
+        <div>
+          补货次数：<span>{{ supplyCount }}</span>
+        </div>
+        <div>
+          维修次数：<span>{{ repairCount }}</span>
+        </div>
+      </div>
+      <div class="title">2</div>
+      <div class="list">3</div>
+    </d-dialog>
   </div>
 </template>
 
@@ -97,8 +117,16 @@
 import DSearch from "@/components/Search.vue";
 import DResultList from "@/components/ResultList.vue";
 import MyButtom from "@/components/Button.vue";
+import DDialog from "@/components/Dialog.vue";
 import MyPagination from "@/components/Pagination.vue";
-import { getSearchList } from "@/api/vm";
+import dayjs from "dayjs";
+import {
+  getSearchList,
+  getRepairCount,
+  getSupplyCount,
+  getSkuCollect,
+  getOrderAmount,
+} from "@/api/vm";
 
 export default {
   components: {
@@ -106,6 +134,7 @@ export default {
     DResultList,
     MyButtom,
     MyPagination,
+    DDialog,
   },
 
   data() {
@@ -117,7 +146,12 @@ export default {
       totalPage: "", //  总页数
       totalCount: "", // 总共多少条记录
       loading: false, // 控制加载
-      innerCode: "",
+      innerCode: "", // 售货机编号
+      detailsShow: false, // 控制查看详情弹框
+      repairCount: "", //  维修次数
+      supplyCount: "", // 补货次数
+      skuCollect: "", // 销量
+      orderAmount: "", // 销售额
     };
   },
 
@@ -155,11 +189,43 @@ export default {
       });
     },
     // 点击操作按钮
-    handleClick(row, val) {
-      console.log(row);
-      // 点击哪个按钮就把 当前这一列的信息 和 按钮的内容 val 传到父组件通过接收到的值触发不同处理函数，
-      this.$emit("operationBtn", row, val);
+    async handleClick(row, val) {
+      const startTime = "2022-08-01";
+      dayjs(new Date());
+      const endTime = dayjs().format("YYYY-MM-DD");
+      // console.log(startTime);
+      // console.log(endTime);
+      this.detailsShow = true;
+      // 获取售货机维修次数
+      const repairCount = await getRepairCount(
+        row.innerCode,
+        startTime,
+        endTime
+      );
+      this.repairCount = repairCount;
+      // 获取售货机补货次数
+      const supplyCount = await getSupplyCount(
+        row.innerCode,
+        startTime,
+        endTime
+      );
+      this.supplyCount = supplyCount;
+      // 获取售货机商品销量
+      const skuCollect = await getSkuCollect(row.innerCode, startTime, endTime);
+      this.skuCollect = skuCollect.reduce((pre, current) => {
+        pre = pre + current.count;
+        return pre;
+      }, 0);
+      // console.log(dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"));
+      const orderAmount = await getOrderAmount(
+        row.innerCode,
+        "2022-08-01 00:00:00",
+        dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")
+      );
+      // console.log(orderAmount);
+      this.orderAmount = orderAmount;
     },
+
     // status 处理
     status(data) {
       let arr = [];
@@ -260,5 +326,20 @@ export default {
   .faultStatusBtn {
     background: #ff665f linear-gradient(135deg, #ffb043, #ffc020);
   }
+}
+.stats {
+  height: 54px;
+  background: rgba(227, 233, 245, 0.39);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.title {
+  margin: 20px 0 12px 6px;
+}
+.list {
+  border-top: 1px solid #d8dde3;
+  border-left: 1px solid #d8dde3;
 }
 </style>

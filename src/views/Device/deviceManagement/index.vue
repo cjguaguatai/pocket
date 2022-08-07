@@ -9,7 +9,7 @@
 -->
 <template>
   <div class="app-main">
-    <d-search nameOne="设备编号" @search='searchFn'/>
+    <d-search nameOne="设备编号" @search="searchFn" />
     <el-card v-loading="loading">
       <result-list
         :totalPage="totalPage"
@@ -19,7 +19,10 @@
         :tableArr="tableArr"
         @upPage="upPage"
         @nextPage="nextPage"
-        :operation="[{ title: '查看', color: false }]"
+        :operation="{
+          opeWidth: '80',
+          ope: [{ title: '查看', color: false }],
+        }"
         :selection="true"
       />
     </el-card>
